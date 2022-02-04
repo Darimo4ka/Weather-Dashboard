@@ -1,0 +1,17 @@
+.hero{
+    padding: 20px;
+    text-align: center;
+    background: #035eb3;
+    color: #fff;
+    border-bottom:30px #879274;
+  }
+  .btn btn-primary {
+    font-family: inherit;
+    /* 1 */
+    font-size: 100%;
+    /* 1 */
+    line-height: 1.15;
+    /* 1 */
+    margin: 10px;
+    /* 2 */
+  }
