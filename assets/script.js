@@ -4,7 +4,7 @@ var cityName = document.getElementById('city_name');
 
 
 // var for API
-var APIkey = '8c3643be24c2f41670517adb84ea4032';
+var APIkey = '';
 
 // write function to get forecast for city
 function getCoordinates(event){
