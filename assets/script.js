@@ -1,18 +1,20 @@
 // var for DOM elemetns
 var fetchButton = document.getElementById('fetch-button');
 var cityName = document.getElementById('city_name');
+var city 
+var forecastBox =document.getElementById('forecast');
 
 
 // var for API
-var APIkey = '';
+var APIkey = '8c3643be24c2f41670517adb84ea4032';
 
 // write function to get forecast for city
 function getCoordinates(event){
     event.preventDefault();
     console.log("getting Coordinates");
     // create var  for city input
-    var city = cityName.value.trim() 
-    console.log(city);
+    city = cityName.value.trim() 
+    // console.log(city);
     var requestUrl =`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${APIkey}`
     fetch(requestUrl)
         .then(function (response) {
@@ -26,11 +28,44 @@ function getCoordinates(event){
 
 // create function to make API call with coordinates
 function getForecast(info){
-    console.log(info);
+    // console.log(info[0]);
     // create var for lat and log
-    var lat = info.lat;
-    console.log(lat)
-    
+    var lat = info[0].lat;
+    // console.log(lat)
+    var lon = info[0].lon;
+    // console.log(lon)  
+    var reqtUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIkey}`
+    fetch(reqtUrl)
+        .then(function (response){
+            return response.json();
+        })
+        .then(function(data){
+            renderForecast(data)
+        })
+}
+//    UV index
+// write a function to render the forecast in browser
+function renderForecast(obj){
+    console.log(obj, city)
+    var date = new Date(obj.current.dt * 1000)
+    // console.log(date)
+    var icon = obj.current.weather[0].icon
+    // console.log(icon)
+    var temperature = (obj.current.temp)-273.15
+    // console.log(temperature)
+    var humidity = obj.current.humidity
+    // console.log(humidity)
+    var theWindSpeed =obj.current.wind_speed
+    // console.log(theWindSpeed)
+    var uvIndex =obj.current.uvi
+    // console.log(uvIndex)
+
+    // create template for our data
+    var template = `
+        <span>forecast for ${city}, ${date}</span>
+    `
+    // inject the tamplete into the dom
+    forecastBox.innerHTML = template
 }
 
 // add eventListener to fetchBtn
