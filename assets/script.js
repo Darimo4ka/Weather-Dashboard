@@ -3,7 +3,28 @@ var fetchButton = document.getElementById('fetch-button');
 var cityName = document.getElementById('city_name');
 var city 
 var forecastBox =document.getElementById('forecast');
+var uvIndex
 
+//    creat a function to get saved information from local storage and display on your page
+
+var getSearch=function(){
+
+    var pastSearch=document.getElementById('past-search')
+
+    var savedItem =JSON.parse(localStorage.getItem('cityName'))
+
+    pastSearch.textContent=savedItem
+
+}
+// call getSearch function when you reload page:
+
+getSearch()
+
+//  create local storage function  city:
+
+var saveSearch = function(cityName){
+    localStorage.setItem("cityName", JSON.stringify(cityName));
+};
 
 // var for API
 var APIkey = '8c3643be24c2f41670517adb84ea4032';
@@ -15,6 +36,13 @@ function getCoordinates(event){
     // create var  for city input
     city = cityName.value.trim() 
     // console.log(city);
+
+    // call function to save to local storage:
+    saveSearch(city)
+
+// call getSearch function when you enter search city:
+    getSearch()
+    
     var requestUrl =`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${APIkey}`
     fetch(requestUrl)
         .then(function (response) {
@@ -43,12 +71,11 @@ function getForecast(info){
             renderForecast(data)
         })
 }
-//    UV index
 // write a function to render the forecast in browser
 function renderForecast(obj){
     console.log(obj, city)
-    var date = new Date(obj.current.dt * 1000)
-    // console.log(date)
+    var date = new Date(obj.current.dt * 1000)    
+    // console.log(date)  should reformate the date and other vars to create cleaner look on my page
     var icon = obj.current.weather[0].icon
     // console.log(icon)
     var temperature = (obj.current.temp)-273.15
@@ -57,52 +84,48 @@ function renderForecast(obj){
     // console.log(humidity)
     var theWindSpeed =obj.current.wind_speed
     // console.log(theWindSpeed)
-    var uvIndex =obj.current.uvi
+    uvIndex =obj.current.uvi
     // console.log(uvIndex)
 
     // create template for our data
     var template = `
-        <span>forecast for ${city}, ${date}</span>
+        <span>${city}, ${date}, ${icon}, ${temperature}, ${theWindSpeed}, ${humidity}, ${uvIndex}</span>
     `
-    // inject the tamplete into the dom
+    // inject the tamplete into the DOM
     forecastBox.innerHTML = template
 }
 
-// add eventListener to fetchBtn
-fetchButton.addEventListener('click', getCoordinates);
 
 
 
 
 
 
+// // // function to determine  UV Index safe or not safe
+//      uvIndex = function(uv){
 
 
+    //get from  https://www.epa.gov/sunsafety/uv-index-scale-0   
+//  1-2 Low         (1 - 2.99999)   Green
+//  3-5 Moderate    (3 - 5.99999)   Yellow 
+//  6+  High        (6 - 7.99999)   Red
 
 
+//     var index = parseFloat(uv);
+//      var bgColor;        
 
+//     if(index < 3){
+//         bgColor = "green";            
+//     }
+//     else if(index < 6){
+//             bgColor = "yellow";        
+//         }
+//      else {
+//             bgColor = "black";    
+//             }
+//     return bgColor;
+   
+// };
 
-
-
-
-// var repoList = document.querySelector('ul');
-// var fetchButton = document.getElementById('fetch-button');
-
-// function getApi() {
-//   // replace `octocat` with anyone else's GitHub username
-//   var requestUrl = 'https://api.github.com/users/octocat/repos';
-
-//   fetch(requestUrl)
-//     .then(function (response) {
-//       return response.json();
-//     })
-//     .then(function (data) {
-//       for (var i = 0; i < data.length; i++) {
-//         var listItem = document.createElement('li');
-//         listItem.textContent = data[i].html_url;
-//         repoList.appendChild(listItem);
-//       }
-//     });
-// }
-
-// fetchButton.addEventListener('click', getApi);
+    // add eventListener to fetchBtn
+    fetchButton.addEventListener('click', getCoordinates);
