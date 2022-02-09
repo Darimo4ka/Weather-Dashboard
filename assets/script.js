@@ -1,9 +1,12 @@
 // var for DOM elemetns
 var fetchButton = document.getElementById('fetch-button');
 var cityName = document.getElementById('city_name');
-var city 
+var city
 var forecastBox =document.getElementById('forecast');
 var uvIndex
+var searchCities = [];
+//  to create array of the objects to be saved 
+
 
 //    creat a function to get saved information from local storage and display on your page
 
@@ -11,7 +14,7 @@ var getSearch=function(){
 
     var pastSearch=document.getElementById('past-search')
 
-    var savedItem =JSON.parse(localStorage.getItem('cityName'))
+    var savedItem =JSON.parse(localStorage.getItem('searchCities'))
 
     pastSearch.textContent=savedItem
 
@@ -22,8 +25,8 @@ getSearch()
 
 //  create local storage function  city:
 
-var saveSearch = function(cityName){
-    localStorage.setItem("cityName", JSON.stringify(cityName));
+var saveSearch = function(searchedCities){
+    localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 };
 
 // var for API
