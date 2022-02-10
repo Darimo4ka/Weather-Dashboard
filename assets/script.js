@@ -4,17 +4,14 @@ var cityName = document.getElementById('city_name');
 var city
 var forecastBox =document.getElementById('forecast');
 var uvIndex
-var searchCities = [];
-//  to create array of the objects to be saved 
+var searchedCities = [];
 
-
-//    creat a function to get saved information from local storage and display on your page
 
 var getSearch=function(){
 
     var pastSearch=document.getElementById('past-search')
 
-    var savedItem =JSON.parse(localStorage.getItem('searchCities'))
+    var savedItem =JSON.parse(localStorage.getItem('searchedCities'))
 
     pastSearch.textContent=savedItem
 
@@ -25,7 +22,8 @@ getSearch()
 
 //  create local storage function  city:
 
-var saveSearch = function(searchedCities){
+var saveSearch = function(cityName){
+    searchedCities.push(cityName)
     localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 };
 
@@ -96,6 +94,9 @@ function renderForecast(obj){
     `
     // inject the tamplete into the DOM
     forecastBox.innerHTML = template
+
+    // call uv function when you pulling data for the city
+    // uvIndex()
 }
 
 
@@ -104,27 +105,27 @@ function renderForecast(obj){
 
 
 
-// // // function to determine  UV Index safe or not safe
+//  // function to determine  UV Index safe or not safe
 //      uvIndex = function(uv){
 
 
-    //get from  https://www.epa.gov/sunsafety/uv-index-scale-0   
-//  1-2 Low         (1 - 2.99999)   Green
-//  3-5 Moderate    (3 - 5.99999)   Yellow 
-//  6+  High        (6 - 7.99999)   Red
+// //     get from  https://www.epa.gov/sunsafety/uv-index-scale-0   
+// //  1-2 Low         (1 - 2.99999)   blue
+// //  3-5 Moderate    (3 - 5.99999)   Yellow 
+// //  6+  High        (6 - 7.99999)   Red
 
 
 //     var index = parseFloat(uv);
-//      var bgColor;        
+//     var bgColor;        
 
 //     if(index < 3){
-//         bgColor = "green";            
+//             bgColor = "blue";            
 //     }
 //     else if(index < 6){
 //             bgColor = "yellow";        
 //         }
 //      else {
-//             bgColor = "black";    
+//             bgColor = "red";    
 //             }
 //     return bgColor;
    
