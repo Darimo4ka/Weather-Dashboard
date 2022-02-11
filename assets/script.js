@@ -95,18 +95,18 @@ function renderForecast(obj){
          <p>Temp: ${temperature} &#176C </p>
          <p>Wind: ${theWindSpeed} m/s </p>
          <p>Humidity: ${humidity} % </p>
-        <span>UV: ${uv} </span>
+        <span>UV: ${uvIndex} </span>
        `
     var uvEl = document.createElement("span");
-    uvEl.setAttribute("class", "uv")
-    if (uv < 3){
-        uvEl.style["background-color"] = "green"
+    uvEl.setAttribute("class", "uvIndex")
+    if (uvIndex < 3){
+        uvEl.style.backgroundﬁColor = "green"
     }
-    else if (uv >= 3 && uv < 6){
-        uvEl.style["background-color"] = "yellow"
+    else if (uvIndex >= 3 && uvIndex < 6){
+        uvEl.style.backgroundColor = "yellow"
     }
     else {
-        uvEl.style["background-color"] = "red"
+        uvEl.style.backgroundColor = "red"
     }
     
     // inject the tamplete into the DOM
