@@ -63,7 +63,7 @@ function getForecast(info){
     // console.log(lat)
     var lon = info[0].lon;
     // console.log(lon)  
-    var reqtUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIkey}`
+    var reqtUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${APIkey}`
     fetch(reqtUrl)
         .then(function (response){
             return response.json();
@@ -75,23 +75,40 @@ function getForecast(info){
 // write a function to render the forecast in browser
 function renderForecast(obj){
     console.log(obj, city)
-    var date = new Date(obj.current.dt * 1000)    
+    var dateObj = new Date(obj.current.dt * 1000) 
+    var date = dateObj.toLocaleString()   
     // console.log(date)  should reformate the date and other vars to create cleaner look on my page
     var icon = obj.current.weather[0].icon
     // console.log(icon)
-    var temperature = (obj.current.temp)-273.15
+    var temperature = (obj.current.temp)
     // console.log(temperature)
     var humidity = obj.current.humidity
     // console.log(humidity)
     var theWindSpeed =obj.current.wind_speed
     // console.log(theWindSpeed)
-    uvIndex =obj.current.uvi
+     var uvIndex =obj.current.uvi
     // console.log(uvIndex)
 
     // create template for our data
     var template = `
-        <span>${city}, ${date}, ${icon}, ${temperature}, ${theWindSpeed}, ${humidity}, ${uvIndex}</span>
-    `
+        <h2> ${city} - ${date}   <span> <img src="http://openweathermap.org/img/wn/${icon}@2x.png" ></span></h2>
+         <p>Temp: ${temperature} &#176C </p>
+         <p>Wind: ${theWindSpeed} m/s </p>
+         <p>Humidity: ${humidity} % </p>
+        <span>UV: ${uv} </span>
+       `
+    var uvEl = document.createElement("span");
+    uvEl.setAttribute("class", "uv")
+    if (uv < 3){
+        uvEl.style["background-color"] = "green"
+    }
+    else if (uv >= 3 && uv < 6){
+        uvEl.style["background-color"] = "yellow"
+    }
+    else {
+        uvEl.style["background-color"] = "red"
+    }
+    
     // inject the tamplete into the DOM
     forecastBox.innerHTML = template
 
